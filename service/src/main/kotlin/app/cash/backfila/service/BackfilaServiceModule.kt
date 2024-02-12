@@ -5,6 +5,7 @@ import app.cash.backfila.client.BackfilaClientServiceClientProvider
 import app.cash.backfila.client.Connectors
 import app.cash.backfila.client.EnvoyClientServiceClientProvider
 import app.cash.backfila.client.ForConnectors
+import app.cash.backfila.client.Http2ClientServiceClientProvider
 import app.cash.backfila.client.HttpClientServiceClientProvider
 import app.cash.backfila.dashboard.BackfilaDashboardModule
 import app.cash.backfila.dashboard.BackfilaWebActionsModule
@@ -53,6 +54,9 @@ class BackfilaServiceModule(
     newMapBinder<String, BackfilaClientServiceClientProvider>(ForConnectors::class)
       .addBinding(Connectors.HTTP)
       .to(HttpClientServiceClientProvider::class.java)
+    newMapBinder<String, BackfilaClientServiceClientProvider>(ForConnectors::class)
+      .addBinding(Connectors.HTTP2)
+      .to(Http2ClientServiceClientProvider::class.java)
     newMapBinder<String, BackfilaClientServiceClientProvider>(ForConnectors::class)
       .addBinding(Connectors.ENVOY)
       .to(EnvoyClientServiceClientProvider::class.java)
