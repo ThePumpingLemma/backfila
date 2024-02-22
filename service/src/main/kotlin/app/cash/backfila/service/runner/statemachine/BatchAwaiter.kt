@@ -68,7 +68,7 @@ class BatchAwaiter(
 
           if (!backfillRunner.runBatchBackoff.backingOff()) {
             if ((response.backoff_ms ?: 0) > 0) {
-              backfillRunner.runBatchBackoff.addMillis(response.backoff_ms)
+              backfillRunner.runBatchBackoff.addMillis(response.backoff_ms!!)
             } else if (backfillRunner.metadata.extraSleepMs > 0 && initialBatch.matching_record_count != 0L) {
               backfillRunner.runBatchBackoff.addMillis(backfillRunner.metadata.extraSleepMs)
             }
@@ -92,17 +92,17 @@ class BatchAwaiter(
               .labels(*backfillRunner.metricLabels).inc()
             backfillRunner.factory.metrics.runBatchCompletedRecordsMatching
               .labels(*backfillRunner.metricLabels)
-              .inc(initialBatch.matching_record_count.toDouble())
+              .inc(initialBatch.matching_record_count!!.toDouble())
             backfillRunner.factory.metrics.runBatchCompletedRecordsScanned
               .labels(*backfillRunner.metricLabels)
-              .inc(initialBatch.scanned_record_count.toDouble())
+              .inc(initialBatch.scanned_record_count!!.toDouble())
             backfillRunner.onRpcSuccess()
 
-            matchingRateCounter.add(initialBatch.matching_record_count)
-            scannedRateCounter.add(initialBatch.scanned_record_count)
+            matchingRateCounter.add(initialBatch.matching_record_count!!)
+            scannedRateCounter.add(initialBatch.scanned_record_count!!)
 
-            pkeyCursor = initialBatch.batch_range.end
-            backfilledScannedRecordCount += initialBatch.scanned_record_count
+            pkeyCursor = initialBatch.batch_range!!.end
+            backfilledScannedRecordCount += initialBatch.scanned_record_count!!
             backfilledMatchingRecordCount += initialBatch.matching_record_count
             scannedRecordsPerMinute = scannedRateCounter.projectedRate()
             matchingRecordsPerMinute = matchingRateCounter.projectedRate()
@@ -131,8 +131,8 @@ class BatchAwaiter(
             .labels(*backfillRunner.metricLabels).inc()
           backfillRunner.onRpcFailure(
             e,
-            "running batch [${remainingBatch.batch_range.start.utf8()}, " +
-              "${remainingBatch.batch_range.end.utf8()}]",
+            "running batch [${remainingBatch.batch_range!!.start!!.utf8()}, " +
+              "${remainingBatch.batch_range!!.end!!.utf8()}]",
             Duration.between(callStartedAt, backfillRunner.factory.clock.instant()),
           )
 

@@ -28,7 +28,7 @@ class CheckBackfillStatusAction @Inject constructor(
   fun checkBackfillStatus(
     @RequestBody request: CheckBackfillStatusRequest,
   ): CheckBackfillStatusResponse {
-    val response = getBackfillStatusAction.status(request.backfill_run_id)
+    val response = getBackfillStatusAction.status(request.backfill_run_id!!)
     return CheckBackfillStatusResponse(toApiStatus(response.state))
   }
 

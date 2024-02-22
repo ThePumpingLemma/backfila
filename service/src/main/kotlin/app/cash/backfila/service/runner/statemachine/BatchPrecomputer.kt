@@ -58,7 +58,7 @@ class BatchPrecomputer(
             metadata.scanSize,
             pkeyCursor,
             KeyRange(metadata.pkeyStart, metadata.pkeyEnd),
-            metadata.parameters,
+            metadata.parameters!!,
             computeTimeLimitMs,
             computeCountLimit,
             metadata.dryRun,
@@ -87,9 +87,9 @@ class BatchPrecomputer(
           break
         }
 
-        pkeyCursor = response.batches.last().batch_range.end
-        computedScannedRecordCount += response.batches.sumOf { it.scanned_record_count }
-        computedMatchingRecordCount += response.batches.sumOf { it.matching_record_count }
+        pkeyCursor = response.batches.last().batch_range!!.end
+        computedScannedRecordCount += response.batches.sumOf { it.scanned_record_count!! }
+        computedMatchingRecordCount += response.batches.sumOf { it.matching_record_count!! }
 
         logger.debug { "Precomputer advanced to $pkeyCursor after scanning ${response.batches}" }
       } catch (e: CancellationException) {

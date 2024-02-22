@@ -110,7 +110,7 @@ class CloneBackfillActionTest {
       )
 
       val cloneResponse = cloneBackfillAction.create(
-        response.backfill_run_id,
+        response.backfill_run_id!!,
         CloneBackfillRequest(
           batch_size = 123,
           scan_size = 223,
@@ -191,7 +191,7 @@ class CloneBackfillActionTest {
       )
 
       val cloneResponse = cloneBackfillAction.create(
-        responseVariant.backfill_run_id,
+        responseVariant.backfill_run_id!!,
         CloneBackfillRequest(
           batch_size = 123,
           scan_size = 223,
@@ -263,7 +263,7 @@ class CloneBackfillActionTest {
       )
 
       val cloneResponse = cloneBackfillAction.create(
-        response.backfill_run_id,
+        response.backfill_run_id!!,
         CloneBackfillRequest(
           range_clone_type = RangeCloneType.NEW,
         ),
@@ -324,7 +324,7 @@ class CloneBackfillActionTest {
       )
 
       val cloneResponse = cloneBackfillAction.create(
-        response.backfill_run_id,
+        response.backfill_run_id!!,
         CloneBackfillRequest(
           range_clone_type = RangeCloneType.CONTINUE,
         ),
@@ -385,7 +385,7 @@ class CloneBackfillActionTest {
       )
 
       val cloneResponse = cloneBackfillAction.create(
-        response.backfill_run_id,
+        response.backfill_run_id!!,
         CloneBackfillRequest(
           range_clone_type = RangeCloneType.RESTART,
         ),
@@ -447,7 +447,7 @@ class CloneBackfillActionTest {
 
       assertThatThrownBy {
         cloneBackfillAction.create(
-          response.backfill_run_id,
+          response.backfill_run_id!!,
           CloneBackfillRequest(
             range_clone_type = RangeCloneType.RESTART,
           ),
@@ -502,7 +502,7 @@ class CloneBackfillActionTest {
       )
 
       val cloneResponse = cloneBackfillAction.create(
-        response.backfill_run_id,
+        response.backfill_run_id!!,
         CloneBackfillRequest(
           range_clone_type = RangeCloneType.NEW,
         ),
@@ -544,7 +544,7 @@ class CloneBackfillActionTest {
 
       assertThatThrownBy {
         cloneBackfillAction.create(
-          response.backfill_run_id,
+          response.backfill_run_id!!,
           CloneBackfillRequest(
             batch_size = 123,
             scan_size = 223,

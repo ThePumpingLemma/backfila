@@ -64,15 +64,15 @@ class FakeBackfilaClientServiceClient @Inject constructor() : BackfilaClientServ
       return getNextBatchRangeResponses.receive().getOrThrow()
     }
     val nextStart = if (request.previous_end_key != null) {
-      request.previous_end_key.utf8().toLong() + 1
+      request.previous_end_key!!.utf8().toLong() + 1
     } else {
-      request.backfill_range.start.utf8().toLong()
+      request.backfill_range!!.start!!.utf8().toLong()
     }
-    var nextEnd = nextStart + request.batch_size - 1
-    if (nextEnd > request.backfill_range.end.utf8().toLong()) {
-      nextEnd = request.backfill_range.end.utf8().toLong()
+    var nextEnd = nextStart + request.batch_size!! - 1
+    if (nextEnd > request.backfill_range!!.end!!.utf8().toLong()) {
+      nextEnd = request.backfill_range!!.end!!.utf8().toLong()
     }
-    if (nextStart > request.backfill_range.end.utf8().toLong()) {
+    if (nextStart > request.backfill_range!!.end!!.utf8().toLong()) {
       return GetNextBatchRangeResponse(listOf())
     }
     return GetNextBatchRangeResponse(

@@ -240,7 +240,7 @@ class BackfillRunner private constructor(
           backfillName,
           partitionName,
           batch.batch_range,
-          metadata.parameters,
+          metadata.parameters!!,
           metadata.dryRun,
           pipelinedData,
           metadata.batchSize,

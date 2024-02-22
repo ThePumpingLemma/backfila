@@ -49,7 +49,7 @@ class BackfillCreator @Inject constructor(
         .uniqueResult(session) ?: throw BadRequestException("`$service`-`$variant` doesn't exist")
       val registeredBackfill = queryFactory.newQuery<RegisteredBackfillQuery>()
         .serviceId(dbService.id)
-        .name(request.backfill_name)
+        .name(request.backfill_name!!)
         .active()
         .uniqueResult(session)
         ?: throw BadRequestException("`${request.backfill_name}` doesn't exist")
@@ -89,7 +89,7 @@ class BackfillCreator @Inject constructor(
       for (partition in partitions) {
         val dbRunPartition = DbRunPartition(
           backfillRun.id,
-          partition.partition_name,
+          partition.partition_name!!,
           partition.backfill_range ?: KeyRange.Builder().build(),
           backfillRun.state,
           partition.estimated_record_count,

@@ -48,7 +48,7 @@ class ConfigureServiceAction @Inject constructor(
     }
 
     val variant = request.variant ?: RESERVED_VARIANT
-    val clientProvider = connectorProvider.clientProvider(request.connector_type)
+    val clientProvider = connectorProvider.clientProvider(request.connector_type!!)
     // This tests that the extra data is valid, throwing an exception if invalid.
     clientProvider.validateExtraData(request.connector_extra_data)
 
@@ -89,7 +89,7 @@ class ConfigureServiceAction @Inject constructor(
         val existingBackfill = existingBackfills[backfill.name]
         val newBackfill = DbRegisteredBackfill(
           dbService.id,
-          backfill.name,
+          backfill.name!!,
           backfill.parameters,
           backfill.type_provided,
           backfill.type_consumed,
@@ -121,7 +121,7 @@ class ConfigureServiceAction @Inject constructor(
       // Any existing backfills not in the current set should be marked deleted.
       val deleted = existingBackfills.keys - request.backfills.map { it.name }
       deleted.forEach { name ->
-        existingBackfills.getValue(name).deactivate(clock)
+        existingBackfills.getValue(name!!).deactivate(clock)
         logger.info { "Deleted backfill for `$service`: `$name`" }
       }
     }

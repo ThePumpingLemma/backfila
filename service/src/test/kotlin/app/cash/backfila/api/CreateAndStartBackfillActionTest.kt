@@ -72,7 +72,7 @@ class CreateAndStartBackfillActionTest {
           .build(),
       )
 
-      val status = getBackfillStatusAction.status(response.backfill_run_id)
+      val status = getBackfillStatusAction.status(response.backfill_run_id!!)
       assertThat(status.state).isEqualTo(BackfillState.RUNNING)
       assertThat(status.created_by_user).isEqualTo("deep-fryer")
       assertThat(status.partitions[0].name).isEqualTo("-80")

@@ -759,8 +759,8 @@ class BackfillRunnerTest {
       val initialRequest = fakeBackfilaClientServiceClient.runBatchRequests.receive()
 
       // Managed to complete the first item only
-      val newStart = initialRequest.batch_range.start.utf8().toInt() + 1
-      var remainingRange = initialRequest.batch_range.newBuilder()
+      val newStart = initialRequest.batch_range!!.start!!.utf8().toInt() + 1
+      var remainingRange = initialRequest.batch_range!!.newBuilder()
         .start(newStart.toString().encodeUtf8())
         .build()
       fakeBackfilaClientServiceClient.runBatchResponses.send(
@@ -775,8 +775,8 @@ class BackfillRunnerTest {
       assertThat(remainingRange).isEqualTo(followup1.batch_range)
 
       // Now we complete the last item in the batch
-      val newEnd = followup1.batch_range.end.utf8().toInt() - 1
-      remainingRange = followup1.batch_range.newBuilder()
+      val newEnd = followup1.batch_range!!.end!!.utf8().toInt() - 1
+      remainingRange = followup1.batch_range!!.newBuilder()
         .end(newEnd.toString().encodeUtf8())
         .build()
       fakeBackfilaClientServiceClient.runBatchResponses.send(
@@ -820,7 +820,7 @@ class BackfillRunnerTest {
       // Cursor is updated once the batch succeeds
       delay(EXTEND_LEASE_PERIOD.toMillis())
       assertThat(getSinglePartitionCursor(runner))
-        .isEqualTo(initialRequest.batch_range.end.utf8().toLong())
+        .isEqualTo(initialRequest.batch_range!!.end!!.utf8().toLong())
 
       val nextBatch = fakeBackfilaClientServiceClient.runBatchRequests.receive()
       // Batch ranges are no longer the same
@@ -856,8 +856,8 @@ class BackfillRunnerTest {
       checkNotNull(firstBatchCursor) // cursor was set when the first batch succeeded
 
       // return a remaining batch
-      val newStart = initialRequest.batch_range.start.utf8().toInt() + 1
-      val remainingRange = initialRequest.batch_range.newBuilder()
+      val newStart = initialRequest.batch_range!!.start!!.utf8().toInt() + 1
+      val remainingRange = initialRequest.batch_range!!.newBuilder()
         .start(newStart.toString().encodeUtf8())
         .build()
       fakeBackfilaClientServiceClient.runBatchResponses.send(
@@ -894,7 +894,7 @@ class BackfillRunnerTest {
       delay(EXTEND_LEASE_PERIOD.toMillis())
       val cursor = getSinglePartitionCursor(runner)
       assertThat(cursor).isGreaterThan(firstBatchCursor) // cursor increased
-      assertThat(cursor).isEqualTo(queuedRequest.batch_range.end.utf8().toLong())
+      assertThat(cursor).isEqualTo(queuedRequest.batch_range!!.end!!.utf8().toLong())
 
       // And we can get another 3
       assertThat(fakeBackfilaClientServiceClient.runBatchRequests.receive()).isNotNull
@@ -946,7 +946,7 @@ class BackfillRunnerTest {
           .parameter_map(mapOf("cheese" to "cheddar".encodeUtf8()))
           .build(),
       )
-      val id = response.backfill_run_id
+      val id = response.backfill_run_id!!
       startBackfillAction.start(id, StartBackfillRequest())
     }
 

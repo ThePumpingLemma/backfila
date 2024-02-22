@@ -94,7 +94,7 @@ class DbRegisteredBackfill() : DbUnsharded<DbRegisteredBackfill>, DbTimestampedE
     this.service_id = service_id
     this.name = name
     if (parameters.isNotEmpty()) {
-      this.parameter_names = parameters.joinToString(",") { it.name }
+      this.parameter_names = parameters.joinToString(",") { it.name!! }
     }
     this.type_provided = type_provided
     this.type_consumed = type_consumed
@@ -106,7 +106,7 @@ class DbRegisteredBackfill() : DbUnsharded<DbRegisteredBackfill>, DbTimestampedE
       this.parameters.add(
         DbRegisteredParameter(
           this,
-          it.name,
+          it.name!!,
           it.description,
           it.required ?: false,
         ),

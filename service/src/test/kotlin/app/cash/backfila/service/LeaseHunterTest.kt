@@ -98,7 +98,7 @@ class LeaseHunterTest {
           .build(),
       )
 
-      val id = response.backfill_run_id
+      val id = response.backfill_run_id!!
       startBackfillAction.start(id, StartBackfillRequest())
     }
 
@@ -140,7 +140,7 @@ class LeaseHunterTest {
           .build(),
       )
 
-      val id = response.backfill_run_id
+      val id = response.backfill_run_id!!
       startBackfillAction.start(id, StartBackfillRequest())
     }
 

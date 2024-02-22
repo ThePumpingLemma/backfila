@@ -67,7 +67,7 @@ class UpdateBackfillActionTest {
           .build(),
       )
 
-      val id = response.backfill_run_id
+      val id = response.backfill_run_id!!
 
       updateBackfillAction.update(id, UpdateBackfillRequest(num_threads = 12))
       var status = getBackfillStatusAction.status(id)
@@ -136,7 +136,7 @@ class UpdateBackfillActionTest {
           .backfill_name("ChickenSandwich")
           .build(),
       )
-      val defaultId = defaultResponse.backfill_run_id
+      val defaultId = defaultResponse.backfill_run_id!!
 
       val deepFriedResponse = createBackfillAction.create(
         "deep-fryer",
@@ -145,7 +145,7 @@ class UpdateBackfillActionTest {
           .backfill_name("ChickenSandwich")
           .build(),
       )
-      val deepFriedId = deepFriedResponse.backfill_run_id
+      val deepFriedId = deepFriedResponse.backfill_run_id!!
 
       updateBackfillAction.update(defaultId, UpdateBackfillRequest(num_threads = 12))
       var status = getBackfillStatusAction.status(defaultId)
@@ -225,7 +225,7 @@ class UpdateBackfillActionTest {
           .build(),
       )
 
-      val id = response.backfill_run_id
+      val id = response.backfill_run_id!!
 
       assertThatThrownBy {
         updateBackfillAction.update(id, UpdateBackfillRequest(scan_size = 12))
@@ -265,7 +265,7 @@ class UpdateBackfillActionTest {
           .build(),
       )
 
-      val id = response.backfill_run_id
+      val id = response.backfill_run_id!!
 
       assertThatThrownBy {
         updateBackfillAction.update(id, UpdateBackfillRequest(scan_size = 0))

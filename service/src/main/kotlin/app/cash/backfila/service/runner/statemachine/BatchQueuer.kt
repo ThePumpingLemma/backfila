@@ -84,7 +84,7 @@ class BatchQueuer(
             metadata.scanSize,
             pkeyCursor,
             KeyRange(metadata.pkeyStart, metadata.pkeyEnd),
-            metadata.parameters,
+            metadata.parameters!!,
             computeTimeLimitMs,
             computeCountLimit.toLong(),
             metadata.dryRun,
@@ -100,10 +100,10 @@ class BatchQueuer(
           .labels(*backfillRunner.metricLabels).inc(response.batches.size.toDouble())
         backfillRunner.factory.metrics.computedRecordsMatching
           .labels(*backfillRunner.metricLabels)
-          .inc(response.batches.sumOf { it.matching_record_count.toDouble() })
+          .inc(response.batches.sumOf { it.matching_record_count!!.toDouble() })
         backfillRunner.factory.metrics.computedRecordsScanned
           .labels(*backfillRunner.metricLabels)
-          .inc(response.batches.sumOf { it.scanned_record_count.toDouble() })
+          .inc(response.batches.sumOf { it.scanned_record_count!!.toDouble() })
         backfillRunner.onRpcSuccess()
 
         if (response.batches.isEmpty()) {
@@ -114,7 +114,7 @@ class BatchQueuer(
 
         for (batch in response.batches) {
           nextBatchChannel.upstream().send(batch)
-          pkeyCursor = batch.batch_range.end
+          pkeyCursor = batch.batch_range!!.end
         }
       } catch (e: CancellationException) {
         logger.info(e) { "BatchQueuer job cancelled ${backfillRunner.logLabel()}" }

@@ -105,7 +105,7 @@ class StartStopBackfillActionTest {
       assertThat(backfillRuns.paused_backfills).hasSize(1)
       assertThat(backfillRuns.running_backfills).hasSize(0)
 
-      val id = response.backfill_run_id
+      val id = response.backfill_run_id!!
       assertThat(backfillRuns.paused_backfills[0].id).isEqualTo(id.toString())
       startBackfillAction.start(id, StartBackfillRequest())
 
@@ -209,7 +209,7 @@ class StartStopBackfillActionTest {
       assertThat(deepFriedRuns.paused_backfills).hasSize(1)
       assertThat(deepFriedRuns.running_backfills).hasSize(0)
 
-      val defaultId = response.backfill_run_id
+      val defaultId = response.backfill_run_id!!
       assertThat(defaultRuns.paused_backfills[0].id).isEqualTo(defaultId.toString())
       startBackfillAction.start(defaultId, StartBackfillRequest())
 
@@ -221,7 +221,7 @@ class StartStopBackfillActionTest {
       assertThat(deepFriedRuns.paused_backfills).hasSize(1)
       assertThat(deepFriedRuns.running_backfills).hasSize(0)
 
-      val deepFriedId = response2.backfill_run_id
+      val deepFriedId = response2.backfill_run_id!!
       assertThat(deepFriedRuns.paused_backfills[0].id).isEqualTo(deepFriedId.toString())
       startBackfillAction.start(deepFriedId, StartBackfillRequest())
 
@@ -329,7 +329,7 @@ class StartStopBackfillActionTest {
       assertThat(deepFriedRuns.paused_backfills).hasSize(1)
       assertThat(deepFriedRuns.running_backfills).hasSize(0)
 
-      val defaultId = response.backfill_run_id
+      val defaultId = response.backfill_run_id!!
       assertThat(defaultRuns.paused_backfills[0].id).isEqualTo(defaultId.toString())
       startBackfillAction.start(defaultId, StartBackfillRequest())
 
@@ -341,7 +341,7 @@ class StartStopBackfillActionTest {
       assertThat(deepFriedRuns.paused_backfills).hasSize(1)
       assertThat(deepFriedRuns.running_backfills).hasSize(0)
 
-      val deepFriedId = response2.backfill_run_id
+      val deepFriedId = response2.backfill_run_id!!
       assertThat(deepFriedRuns.paused_backfills[0].id).isEqualTo(deepFriedId.toString())
       startBackfillAction.start(deepFriedId, StartBackfillRequest())
 
@@ -439,7 +439,7 @@ class StartStopBackfillActionTest {
           .backfill_name("ChickenSandwich")
           .build(),
       )
-      val id = response.backfill_run_id
+      val id = response.backfill_run_id!!
 
       assertThatThrownBy {
         startBackfillAction.start(id + 1, StartBackfillRequest())
@@ -472,7 +472,7 @@ class StartStopBackfillActionTest {
           .backfill_name("ChickenSandwich")
           .build(),
       )
-      val id = response.backfill_run_id
+      val id = response.backfill_run_id!!
       startBackfillAction.start(id, StartBackfillRequest())
 
       transacter.transaction { session ->
@@ -512,7 +512,7 @@ class StartStopBackfillActionTest {
           .backfill_name("ChickenSandwich")
           .build(),
       )
-      val id = response.backfill_run_id
+      val id = response.backfill_run_id!!
       assertThatThrownBy {
         stopBackfillAction.stop(id, StopBackfillRequest())
       }.isInstanceOf(BadRequestException::class.java)
@@ -544,7 +544,7 @@ class StartStopBackfillActionTest {
           .backfill_name("ChickenSandwich")
           .build(),
       )
-      val id = response.backfill_run_id
+      val id = response.backfill_run_id!!
 
       transacter.transaction { session ->
         val run = session.load(Id<DbBackfillRun>(id))
